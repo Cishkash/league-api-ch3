@@ -1,0 +1,33 @@
+
+  <div class="search-form">
+    <div class="input-group">
+      {{!-- WIP no time rawr
+      {{#if user.toggleLocale}}
+        {{#bs-button-group class="input-group-btn"}}
+
+          {{#bs-dropdown}}
+
+            {{#bs-dropdown-button aria-haspopup="true" aria-expanded="false"}}
+              {{user.localeName}} <span class="caret"></span>
+            {{/bs-dropdown-button}}
+
+              {{#bs-dropdown-menu}}
+                {{#each global.regions as |region|}}
+                  <li><a href="" {{action "didSelectLocale" region.name region.slug}}>{{region.name}}</a></li>
+                {{/each}}
+              {{/bs-dropdown-menu}}
+
+          {{/bs-dropdown}}
+
+        {{/bs-button-group}}
+      {{else}}
+      {{/if}} --}}
+      <span class="input-group-addon" id="fake-region">NA</span>
+
+      {{input type="text" class="form-control" value=summonerName placeholder="Search for a summoner..." aria-describedby="fake-region"}}
+
+      <span class="input-group-btn">
+        {{link-to 'Search' 'summoner' summonerName class="btn btn-default"}}
+      </span>
+    </div>
+  </div>
