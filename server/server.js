@@ -3,7 +3,8 @@ const express = require('express'),
       thenRequest = require('then-request'),
       util = require('util'),
       port = 3000,
-      app = express();
+      app = express()
+      apiConfig = require('./apiConfig');
 
 // CORS related stuff
 app.use(function(req, res, next) {
@@ -14,7 +15,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-const apiKey = '69612dd0-f97f-4a10-95e5-fedfb53120e6',
+const apiKey = apiConfig.api_key,
       region = 'na',
       globalHost = 'https://global.api.pvp.net',
       regionHost = 'https://na.api.pvp.net/';
