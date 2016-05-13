@@ -6,6 +6,7 @@ body, html {
 
 body {
   background: url('/assets/images/confectionary.png');
+  font-family: 'Oswald', sans-serif;
   height: 100vh;
 }
 
@@ -124,3 +125,6 @@ hr {
     line-height: 1.5rem;
   }
 }
+
+@import 'modules/loading.scss';
+@import url(https://fonts.googleapis.com/css?family=Oswald:400,400);
