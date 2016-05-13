@@ -37,11 +37,11 @@ function hostConfig(regionId) {
  * the route championmastery in the UI.
  *
  * @query  {object} req.query.summonerId  The summoner ID of the summoner you are
- *         																searching for.
+ *                                        searching for.
  * @send   {object} datum                 A homunculus of summoner data specific to
- *         																the top three champions belonging to any
- *         																(well currently just any NA summoner :( )
- *         																summoner ID.
+ *                                        the top three champions belonging to any
+ *                                        (well currently just any NA summoner :( )
+ *                                        summoner ID.
  */
 app.get('/topChampions', function(req, res) {
 
@@ -218,8 +218,8 @@ app.get('setRegion/:region_id', (req, res) => {
  *
  * @param  {string.number}                    Summoner name
  * @send   {object}        datum.summoner_id  Summoner data specific to the summoner
- *         																		name. Hits the `summoner/by-name/`
- *         																		endpoint.
+ *                                            name. Hits the `summoner/by-name/`
+ *                                            endpoint.
  */
 app.get('/summoners/:summoner_id', (req, res) => {
 
