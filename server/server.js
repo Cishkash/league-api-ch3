@@ -1,6 +1,5 @@
 const express = require('express'),
       request = require('request'),
-      thenRequest = require('then-request'),
       util = require('util'),
       port = 3000,
       app = express()
