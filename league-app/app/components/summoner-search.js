@@ -7,7 +7,6 @@ export default Ember.Component.extend({
 
   // Action
   actions: {
-
     /**
      * This will eventually be useful. For now, this is shelved.
      * It's purpose however, is to set the user locale when searching for a summoner
@@ -25,6 +24,8 @@ export default Ember.Component.extend({
 
       userService.set('localeName', localeName);
       userService.set('localeSlug', localeSlug);
+
+      this.sendAction('refreshModel');
     }
   }
 });

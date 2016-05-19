@@ -15,21 +15,17 @@ app.use(function(req, res, next) {
 });
 
 const apiKey = apiConfig.api_key,
-      region = 'na',
-      globalHost = 'https://global.api.pvp.net',
-      regionHost = 'https://na.api.pvp.net/';
+      globalHost = 'https://global.api.pvp.net';
 
-/**
- * A failed attempt at using node utils to create interpolated hosts... Just tell
- * me I'm pretty.
- *
- * @todo                     Fix this.
- * @param  {string} regionId Pass in the region slug and like magic nothing happens
- * @return {string}          A string for the appropriate host
- */
-function hostConfig(regionId) {
+var   regionObj = {};
 
-  return util.format(regionHost, regionId);
+function setUrl(regionSlug, namespace, endpoint, params) {
+
+  if (params) {
+    return 'https://'+ regionSlug +'.api.pvp.net/' + namespace + params + endpoint;
+  } else {
+    return 'https://'+ regionSlug +'.api.pvp.net/' + namespace + endpoint;
+  }
 }
 
 /**
@@ -49,69 +45,107 @@ app.get('/topChampions', function(req, res) {
       datum = {},
       endpoint = '/topchampions',
       i,
-      namespace = 'championmastery/location/NA1/player/',
+      namespace = 'championmastery/location/'+ regionObj.regionTag +'/player/',
       options = {
         dataType: 'json',
         qs: {
           api_key: apiKey
         },
-        url: regionHost + namespace + req.query.summonerId + endpoint
+        url: setUrl(regionObj.slug, namespace, endpoint, req.query.summonerId)
       };
 
   // Fetch champion masteries for the summonerId (query param)
   request(options, function(err, response, body) {
 
+    if (body != null) {
+
+      if (!err && response.statusCode == 200) {
+
+        body = JSON.parse(body);
+        var statArr = [];
+
+        // Loop through this bad boy, get me some champion data
+        body.forEach( (champion, index) => {
+
+          var championId = champion.championId,
+          endpoint = 'champion/' + championId,
+          namespace = 'api/lol/static-data/'+ regionObj.slug +'/v1.2/',
+          options = {
+            dataType: 'json',
+            method: 'GET',
+            qs: {
+              api_key: apiKey,
+              champData: 'image'
+            },
+            url: setUrl(regionObj.slug, namespace, endpoint)
+          };
+
+          // Fetch champion data for champion in body
+          request(options, function(statErr, statResponse, statBody) {
+
+            statBody = JSON.parse(statBody);
+
+            if (!err && statResponse.statusCode == 200) {
+              champion.name = statBody.name;
+              champion.image = statBody.image;
+              champion.id = index;
+              champion.key = statBody.key;
+              champion.title = statBody.title;
+
+              statArr.push(champion);
+              if (statArr.length == 3) {
+                datum.topChampions = statArr;
+                console.log(datum)
+                res.send(datum);
+              }
+            } else {
+              res.send(statErr);
+            }
+          });
+        });
+      } else {
+        res.send({});
+      }
+    } else {
+      res.send(err);
+    }
+  });
+});
+
+app.get('/locales/:region_id', function(req, res) {
+
+  var datumArr = [],
+      datum = {},
+      localeOptions ={
+        method: 'GET',
+        qs: {
+          api_key: apiKey
+        },
+        url: 'http://status.leagueoflegends.com/shards/' + req.params.region_id
+      };
+
+  regionObj.slug = req.params.region_id;
+
+  request(localeOptions, function(err, response, body) {
+
+    body = JSON.parse(body);
+
     if (!err && response.statusCode == 200) {
 
-      body = JSON.parse(body);
-      var statArr = [];
+      regionObj.regionTag = body.region_tag;
 
-      // Loop through this bad boy, get me some champion data
-      body.forEach( (champion, index) => {
+      datum.locale = {
+        id: 1,
+        region: body.hostname
+      }
 
-        var championId = champion.championId,
-            endpoint = 'champion/' + championId,
-            namespace = 'api/lol/static-data/'+ region +'/v1.2/',
-            options = {
-              dataType: 'json',
-              method: 'GET',
-              qs: {
-                api_key: apiKey,
-                champData: 'image'
-              },
-              url: regionHost + namespace + endpoint
-            };
-
-        // Fetch champion data for champion in body
-        request(options, function(statErr, statResponse, statBody) {
-
-          statBody = JSON.parse(statBody);
-
-          if (!err && statResponse.statusCode == 200) {
-            champion.name = statBody.name;
-            champion.image = statBody.image;
-            champion.id = index;
-            champion.key = statBody.key;
-            champion.title = statBody.title;
-
-            statArr.push(champion);
-            if (statArr.length == 3) {
-              datum.topChampions = statArr;
-              console.log(datum)
-              res.send(datum);
-            }
-          } else {
-            console.log(err);
-          }
-        });
-      });
+      res.send(datum);
     } else {
 
       console.log(err);
     }
   });
 });
-
 /**
  * List of all champions and related data to that champion
  *
@@ -224,27 +258,30 @@ app.get('setRegion/:region_id', (req, res) => {
 app.get('/summoners/:summoner_id', (req, res) => {
 
   var summonerId = req.params.summoner_id,
-      regionId = region,
       endpoint = 'summoner/by-name/'+ summonerId,
-      namespace = 'api/lol/'+ regionId +'/v1.4/',
+      namespace = 'api/lol/'+ regionObj.slug +'/v1.4/',
       options = {
         method: 'GET',
         qs: {
           api_key: apiKey
         },
-        url: regionHost + namespace + endpoint
+        url: setUrl(regionObj.slug, namespace, endpoint)
       };
 
   request(options, (err, response, body) => {
 
-    if (!err && response.statusCode == 200) {
+    if (body) {
+      if (!err && response.statusCode == 200) {
 
-      var datum = JSON.parse(body);
+        var datum = JSON.parse(body);
 
-      res.send(datum[summonerId.toLowerCase()]);
+        res.send(datum[summonerId.toLowerCase()]);
+      } else {
+
+        res.send(body);
+      }
     } else {
-
-      console.log(err);
+      res.send({});
     }
   });
 });

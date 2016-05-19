@@ -1,7 +1,6 @@
 
   <div class="search-form">
     <div class="input-group">
-      {{!-- WIP no time rawr
       {{#if user.toggleLocale}}
         {{#bs-button-group class="input-group-btn"}}
 
@@ -20,14 +19,14 @@
           {{/bs-dropdown}}
 
         {{/bs-button-group}}
-      {{else}}
-      {{/if}} --}}
-      <span class="input-group-addon" id="fake-region">NA</span>
+      {{/if}}
+      {{!-- <span class="input-group-addon" id="fake-region">NA</span> --}}
 
       {{input type="text" class="form-control" value=summonerName placeholder="Search for a summoner..." aria-describedby="fake-region"}}
 
       <span class="input-group-btn">
-        {{link-to 'Search' 'summoner' summonerName class="btn btn-default"}}
+
+        {{link-to "Search" "locale.summoner" user.localeSlug summonerName class="btn btn-default"}}
       </span>
     </div>
   </div>

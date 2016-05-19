@@ -20,5 +20,11 @@ export default Ember.Route.extend({
 
       globalService.set('regions', regions.toArray());
     });
+  },
+  actions: {
+    refreshModel() {
+
+      this.refresh();
+    }
   }
 });

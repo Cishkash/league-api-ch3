@@ -7,8 +7,10 @@ const Router = Ember.Router.extend({
 
 Router.map( function() {
   this.route('/', () => {
-    this.route('summoner', {path: '/summoner/:summoner_name'}, function() {
-      this.route('championmastery', {path: 'championmastery'})
+    this.route('locale', {path: '/:region_id'}, function() {
+      this.route('summoner', {path: '/summoner/:summoner_name'}, function() {
+        this.route('championmastery');
+      });
     });
   });
 });

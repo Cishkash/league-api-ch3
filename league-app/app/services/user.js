@@ -19,5 +19,5 @@ export default Ember.Service.extend({
    *
    * @type {Boolean}
    */
-  toggleLocale: false
+  toggleLocale: true
 });
