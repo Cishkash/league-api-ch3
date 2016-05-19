@@ -1,0 +1,21 @@
+{{#if model.summonerId}}
+  <div class="col-md-3 bg-white">
+    {{summoner-data model=model}}
+
+    <div id="filters" class="filters">
+
+      <h2>{{#link-to "locale.summoner.championmastery" (query-params summonerId=model.summonerId)}}Champion Masteries{{/link-to}}</h2>
+      <hr>
+      <h5>Coming soon</h5>
+      <h2 class="muted">Matches</h2>
+      <h2 class="muted">League</h2>
+    </div>
+  </div>
+{{outlet}}
+{{else}}
+  <div class="text-center">
+    <h1>Legitimately couldn't find that summoner.</h1>
+    <h3>You may want to try searching for a different summoner.</h3>
+    <small>Just a thought...</small>
+  </div>
+{{/if}}
