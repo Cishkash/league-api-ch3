@@ -14,17 +14,11 @@ export default Ember.Route.extend({
    * @method init Init hook
    */
   init() {
+
     var globalService = this.get('global');
 
     this.store.findAll('region').then(regions => {
-
       globalService.set('regions', regions.toArray());
     });
-  },
-  actions: {
-    refreshModel() {
-
-      this.refresh();
-    }
   }
 });

@@ -19,7 +19,7 @@
 
 .dotOne {
   -webkit-animation : dotOneKeyframes 5s ease  infinite;
-  background        : $primary;
+  background        : $primary-link;
   position          : absolute;
   top               : 0;
   left              : 0;
@@ -27,7 +27,7 @@
 
 .dotTwo {
   -webkit-animation : dotTwoKeyframes 5s ease 0.4166666666666s infinite;
-  background        : $primary;
+  background        : $primary-link;
   position          : absolute;
   top               : 0;
   left              : 14px;
@@ -35,7 +35,7 @@
 
 .dotThree {
   -webkit-animation : dotThreeKeyframes 5s ease 0.83333333333s infinite;
-  background        : $primary;
+  background        : $primary-link;
   position          : absolute;
   top               : 14px;
   left              : 14px;

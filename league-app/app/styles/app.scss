@@ -1,7 +1,11 @@
-$primary: #337ab7;
+// Variable declarations
+$primary: #555;
+$primary-link: #337ab7;
 
+
+// Application base styles
 a {
-  color: $primary;
+  color: $primary-link;
 }
 
 body, html {
@@ -12,6 +16,7 @@ body, html {
 
 body {
   background: url('/assets/images/confectionary.png');
+  color: $primary;
   font-family: 'Oswald', sans-serif;
   height: 100vh;
 }
@@ -21,98 +26,8 @@ body {
   height: 93vh;
 }
 
-.muted {
-  color: #999;
-}
-
-.row-list {
-  padding: 2rem;
-}
-
 .south-width{
   height: 93vh;
-}
-
-.stats {
-  color: #555;
-
-  &.stat-border {
-    border: 1px solid #aaa;
-    border-radius: 0 0 1rem 1rem;
-  }
-
-  .champion-stats {
-
-    li {
-      border-bottom: 1px solid #aaa;
-    }
-
-    li:last-child {
-      border: 0;
-    }
-  }
-}
-
-.content {
-  padding-top: 1rem;
-
-  .list-inline {
-    margin-left: 0;
-    margin-bottom: 0;
-  }
-
-
-  ul {
-    border-radius: 1rem 1rem 0 0;
-
-    &.no-bullet {
-      list-style-type: none;
-      padding:0;
-      margin:0;
-    }
-
-
-    li {
-      vertical-align: top;
-
-      &.elbow-room {
-
-        margin: 1rem;
-      }
-    }
-  }
-
-  .row-list-0 {
-    background: rgba(237, 218, 116, .5);
-  }
-  .row-list-1 {
-    background: rgba(192, 192, 192, .5);
-  }
-  .row-list-2 {
-    background: rgba(156, 104, 99, .5);
-  }
-
-  .champion-mastery-stats {
-    height:100%;
-  }
-}
-
-.filters {
-  text-align: center;
-}
-
-.media {
-  border-bottom: 1px solid #aaa;
-  padding: 2rem 0;
-}
-.media-body {
-  text-align: center;
-  vertical-align: middle;
-}
-
-.no-gutter > [class*='col-'] {
-  padding-right:0;
-  padding-left:0;
 }
 
 .search-form {
@@ -136,5 +51,21 @@ hr {
   }
 }
 
+// Utility classes
+.muted {
+  color: #999;
+}
+
+.no-gutter > [class*='col-'] {
+  padding-right:0;
+  padding-left:0;
+}
+
+// Loading spinner thing
 @import 'modules/loading.scss';
+
+// Application route styles
+@import 'modules/summoner-data.scss';
+@import 'modules/masteries.scss';
+
 @import url(https://fonts.googleapis.com/css?family=Oswald:400,400);

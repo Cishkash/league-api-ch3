@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
    * @property topThreeChampions  Computed property
    * @returns {object}            Sorted version of my model
    */
-  topThreeChampions: Ember.computed.sort('model', 'champSort'),
+  topThreeChampions: Ember.computed.sort('model.topChampions', 'champSort'),
   /**
    * Sort my model by id. Apparently it's just that easy in Ember
    *

@@ -1,6 +1,5 @@
 <div class="col-md-9 content">
   {{#each topThreeChampions as |topChampion|}}
-  {{log topChampion}}
     {{#if topChampion}}
       <div class="col-md-4">
         <ul class="list-inline row-list-{{topChampion.id}}">
@@ -15,11 +14,16 @@
             <li><h3>Mastery Level: {{topChampion.championLevel}}</h3></li>
             <li><h4>Champion Points: {{topChampion.championPoints}}</h4></li>
             <li><h4>Experience: {{topChampion.championPointsSinceLastLevel}}</h4></li>
+            <li><h4>Highest Grade: {{if topChampion.highestGrade topChampion.highestGrade "No grade recorded"}}</h4></li>
             <li><h4>To Next Level: {{topChampion.championPointsUntilNextLevel}}</h4></li>
           </ul>
         </div>
       </div>
     {{/if}}
   {{/each}}
+  <div class="col-md-12 text-center mastery-score">
+    <h3>This summoner has achieved a mastery score of: {{model.masteryScore.score}}</h3>
+  </div>
+  <hr>
 </div>{{! Content }}
 {{outlet}}

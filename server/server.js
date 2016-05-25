@@ -3,7 +3,8 @@ const express = require('express'),
       util = require('util'),
       port = 3000,
       app = express()
-      apiConfig = require('./apiConfig');
+      apiConfig = require('./apiConfig'),
+      http = require('http');
 
 // CORS related stuff
 app.use(function(req, res, next) {
@@ -17,8 +18,36 @@ app.use(function(req, res, next) {
 const apiKey = apiConfig.api_key,
       globalHost = 'https://global.api.pvp.net';
 
-var   regionObj = {};
+var regionObj = {};
 
+app.get('/currentVersion', (req, res) => {
+  var datum = {},
+      options = {
+      qs: {
+        api_key: apiKey
+      },
+      url: 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/versions'
+    };
+
+  request(options, (err, response, body) => {
+    if (!err && response.statusCode == 200) {
+      body = JSON.parse(body);
+      datum.currentVersion = body[0];
+      console.log(datum);
+      res.send(datum);
+    };
+  });
+});
+/**
+ * This sets the url up for requests
+ *
+ * @method setUrl
+ * @param {string} regionSlug
+ * @param {string} namespace
+ * @param {string} endpoint
+ * @param {string} params
+ * @return {string}
+ */
 function setUrl(regionSlug, namespace, endpoint, params) {
 
   if (params) {
@@ -27,7 +56,6 @@ function setUrl(regionSlug, namespace, endpoint, params) {
     return 'https://'+ regionSlug +'.api.pvp.net/' + namespace + endpoint;
   }
 }
-
 /**
  * Fetch the top three champions using the summonerId of a summoner passed in from
  * the route championmastery in the UI.
@@ -111,7 +139,44 @@ app.get('/topChampions', function(req, res) {
     }
   });
 });
+/**
+ * Fetches a player's mastery score for all of their champion masteries
+ *
+ * @return {Object} Player's mastery score
+ */
+app.get('/masteryScores', function(req, res) {
 
+  var datum = {},
+      endpoint = '/score',
+      namespace = 'championmastery/location/'+ regionObj.regionTag +'/player/',
+      options = {
+        dataType: 'json',
+        qs: {
+          api_key: apiKey
+        },
+        url: setUrl(regionObj.slug, namespace, endpoint, req.query.summonerId)
+      };
+
+  request(options, function(err, response, body) {
+    if (!err && response.statusCode == 200) {
+      body = JSON.parse(body);
+      datum.masteryScore = {
+        id: 0,
+        score: body
+      }
+      console.log(datum);
+      res.send(datum);
+    } else {
+      res.send(err);
+    }
+  });
+});
+/**
+ * Sets up locale for the application
+ *
+ * @param  {string} req.params.region_id
+ * @return {object}
+ */
 app.get('/locales/:region_id', function(req, res) {
 
   var datumArr = [],
@@ -219,34 +284,6 @@ app.get('/regions', (req, res) => {
     res.send(datum);
   });
 });
-
-/**
- * Look away, nothing to see here. Was a WIP, got distracted a bit. Now it's an
- * orphan and it keeps asking "Please sir, can I have some more".
- *
- * @todo                        Needs fixing, so much I forgot its purpose
- */
-app.get('setRegion/:region_id', (req, res) => {
-
-  var regionId = req.params.region_id,
-      jsonObj = {};
-
-  activeRegion = regionId || region;
-
-  hostConfig(activeRegion);
-
-  jsonObj = {
-    data: {
-      type: 'setRegion',
-      host_set: hostConfig(activeRegion),
-      region_set: activeRegion
-    }
-  }
-
-  res.send(jsonObj);
-});
-
-
 /**
  * Fetches the summoner by name. Passed in from the summoner route.
  *
