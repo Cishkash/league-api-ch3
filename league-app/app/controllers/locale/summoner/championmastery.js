@@ -1,6 +1,9 @@
 import Ember from 'ember';
+const { inject } = Ember;
 
 export default Ember.Controller.extend({
+
+  globalService: inject.service('global'),
   /**
    * Binding of the summonerId from the template. Porque routable components wru!
    * The summoner id of the summoner you are looking to search data on. Currently,

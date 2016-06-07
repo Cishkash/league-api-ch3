@@ -20,7 +20,7 @@ const apiKey = apiConfig.api_key,
 
 var regionObj = {};
 
-app.get('/currentVersion', (req, res) => {
+app.get('/currentVersions', (req, res) => {
   var datum = {},
       options = {
       qs: {
@@ -32,8 +32,11 @@ app.get('/currentVersion', (req, res) => {
   request(options, (err, response, body) => {
     if (!err && response.statusCode == 200) {
       body = JSON.parse(body);
-      datum.currentVersion = body[0];
-      console.log(datum);
+      datum.currentVersion = [{
+        id: 1,
+        version: body[0]
+      }]
+      console.log(datum)
       res.send(datum);
     };
   });
@@ -280,6 +283,7 @@ app.get('/regions', (req, res) => {
     }
 
     datum.regions = datumArr;
+    console.log(datum);
 
     res.send(datum);
   });

@@ -1,31 +1,39 @@
 import Ember from 'ember';
-const { inject } = Ember;
+const { computed, inject } = Ember;
 
 export default Ember.Component.extend({
+  // Service injections
   global: inject.service(),
   user: inject.service(),
+
+  /**
+   * The summoner name without the spaces
+   * Set from the noSpace action.
+   *
+   * @property proxiedSummonerName
+   * @type {String}
+   */
+  proxiedSummonerName: '',
+  /**
+   * The name of the summoner searched for
+   *
+   * @type {String}
+   */
+  summonerName: '',
 
   // Action
   actions: {
     /**
-     * This will eventually be useful. For now, this is shelved.
-     * It's purpose however, is to set the user locale when searching for a summoner
-     * specific to a certain region.
+     * Removes the spaces from the summoner name upon search.
+     * Fires first because this actio is yielded before the link-to helper.
      *
-     * @todo Adjust the locale to a query-param? maybe? probably best as a dynamic
-     *       segment
-     * @param  {string} localeName The full name of the locale (ie. "North America")
-     * @param  {string} localeSlug The abbr of the locale (ie. "na")
-     * @method
+     * @method noSpace
+     * @param  {String} summonerName
      */
-    didSelectLocale(localeName, localeSlug) {
+    noSpace(summonerName) {
 
-      var userService = this.get('user');
-
-      userService.set('localeName', localeName);
-      userService.set('localeSlug', localeSlug);
-
-      this.sendAction('refreshModel');
+      summonerName = summonerName.replace(/\s/g, '');
+      this.set('proxiedSummonerName', summonerName);
     }
   }
 });

@@ -18,7 +18,13 @@ export default Ember.Route.extend({
     var globalService = this.get('global');
 
     this.store.findAll('region').then(regions => {
+
       globalService.set('regions', regions.toArray());
     });
+
+    // this.store.findAll('currentVersion').then(currentVersion => {
+    //   currentVersion = currentVersion.toArray();
+    //   globalService.set('currentVersion', currentVersion[0]);
+    // });
   }
 });

@@ -26,7 +26,10 @@
 
       <span class="input-group-btn">
 
-        {{link-to "Search" "locale.summoner" user.localeSlug summonerName class="btn btn-default"}}
+        {{!-- {{link-to "Search" "locale.summoner" user.localeSlug summonerName class="btn btn-default"}} --}}
+        {{#link-to "locale.summoner" user.localeSlug proxiedSummonerName class="btn btn-default"}}
+          <span {{action "noSpace" summonerName}}>Search</span>
+        {{/link-to}}
       </span>
     </div>
   </div>

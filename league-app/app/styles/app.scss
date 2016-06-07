@@ -15,7 +15,7 @@ body, html {
 }
 
 body {
-  background: url('/assets/images/confectionary.png');
+  background: #333 url('/assets/images/confectionary.png');
   color: $primary;
   font-family: 'Oswald', sans-serif;
   height: 100vh;
@@ -24,6 +24,10 @@ body {
 .bg-white {
   background: #fff;
   height: 93vh;
+}
+
+.bg-white-opa-60 {
+  background: rgba(255, 255, 255, .6);
 }
 
 .south-width{
