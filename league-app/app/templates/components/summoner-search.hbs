@@ -1,35 +1,34 @@
+<div class="search-form">
+  <div class="input-group">
+    {{#if user.toggleLocale}}
+      {{#bs-button-group class="input-group-btn"}}
 
-  <div class="search-form">
-    <div class="input-group">
-      {{#if user.toggleLocale}}
-        {{#bs-button-group class="input-group-btn"}}
+        {{#bs-dropdown}}
 
-          {{#bs-dropdown}}
+          {{#bs-dropdown-button aria-haspopup="true" aria-expanded="false"}}
+            {{user.localeName}} <span class="caret"></span>
+          {{/bs-dropdown-button}}
 
-            {{#bs-dropdown-button aria-haspopup="true" aria-expanded="false"}}
-              {{user.localeName}} <span class="caret"></span>
-            {{/bs-dropdown-button}}
+            {{#bs-dropdown-menu}}
+              {{#each global.regions as |region|}}
+                <li><a href="" {{action "didSelectLocale" region.name region.slug}}>{{region.name}}</a></li>
+              {{/each}}
+            {{/bs-dropdown-menu}}
 
-              {{#bs-dropdown-menu}}
-                {{#each global.regions as |region|}}
-                  <li><a href="" {{action "didSelectLocale" region.name region.slug}}>{{region.name}}</a></li>
-                {{/each}}
-              {{/bs-dropdown-menu}}
+        {{/bs-dropdown}}
 
-          {{/bs-dropdown}}
+      {{/bs-button-group}}
+    {{/if}}
+    {{!-- <span class="input-group-addon" id="fake-region">NA</span> --}}
 
-        {{/bs-button-group}}
-      {{/if}}
-      {{!-- <span class="input-group-addon" id="fake-region">NA</span> --}}
+    {{input type="text" class="form-control" value=summonerName placeholder="Search for a summoner..." aria-describedby="fake-region"}}
 
-      {{input type="text" class="form-control" value=summonerName placeholder="Search for a summoner..." aria-describedby="fake-region"}}
+    <span class="input-group-btn">
 
-      <span class="input-group-btn">
-
-        {{!-- {{link-to "Search" "locale.summoner" user.localeSlug summonerName class="btn btn-default"}} --}}
-        {{#link-to "locale.summoner" user.localeSlug proxiedSummonerName class="btn btn-default"}}
-          <span {{action "noSpace" summonerName}}>Search</span>
-        {{/link-to}}
-      </span>
-    </div>
+      {{!-- {{link-to "Search" "locale.summoner" user.localeSlug summonerName class="btn btn-default"}} --}}
+      {{#link-to "locale.summoner" user.localeSlug proxiedSummonerName class="btn btn-default"}}
+        <span {{action "noSpace" summonerName}}>Search</span>
+      {{/link-to}}
+    </span>
   </div>
+</div>

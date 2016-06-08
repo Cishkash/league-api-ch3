@@ -20,6 +20,5 @@ export default Ember.Route.extend({
       topChampions: this.store.query('top-champion', params),
       masteryScore: this.store.queryRecord('mastery-score', params)
     });
-    // return this.store.query('top-champion', params);
   }
 });

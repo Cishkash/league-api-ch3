@@ -20,27 +20,6 @@ const apiKey = apiConfig.api_key,
 
 var regionObj = {};
 
-app.get('/currentVersions', (req, res) => {
-  var datum = {},
-      options = {
-      qs: {
-        api_key: apiKey
-      },
-      url: 'https://global.api.pvp.net/api/lol/static-data/na/v1.2/versions'
-    };
-
-  request(options, (err, response, body) => {
-    if (!err && response.statusCode == 200) {
-      body = JSON.parse(body);
-      datum.currentVersion = [{
-        id: 1,
-        version: body[0]
-      }]
-      console.log(datum)
-      res.send(datum);
-    };
-  });
-});
 /**
  * This sets the url up for requests
  *

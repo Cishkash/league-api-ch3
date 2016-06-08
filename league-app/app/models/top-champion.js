@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { attr, belongsTo, hasMany } = DS;
+const { attr } = DS;
 
 export default DS.Model.extend({
   playerId: attr(),
