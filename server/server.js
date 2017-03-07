@@ -105,7 +105,6 @@ app.get('/topChampions', function(req, res) {
               statArr.push(champion);
               if (statArr.length == 3) {
                 datum.topChampions = statArr;
-                console.log(datum)
                 res.send(datum);
               }
             } else {
@@ -146,7 +145,6 @@ app.get('/masteryScores', function(req, res) {
         id: 0,
         score: body
       }
-      console.log(datum);
       res.send(datum);
     } else {
       res.send(err);
@@ -189,7 +187,6 @@ app.get('/locales/:region_id', function(req, res) {
       res.send(datum);
     } else {
 
-      console.log(err);
     }
   });
 });
@@ -262,7 +259,6 @@ app.get('/regions', (req, res) => {
     }
 
     datum.regions = datumArr;
-    console.log(datum);
 
     res.send(datum);
   });
